@@ -1,0 +1,23 @@
+{
+    "compilerOptions": {
+        "experimentalDecorators": true,
+        "baseUrl": ".",
+        "paths": {
+            "c/AmortizationCalculator": [
+                "AmortizationCalculator/AmortizationCalculator.js"
+            ],
+            "c/amortizationCalculator": [
+                "amortizationCalculator/amortizationCalculator.js"
+            ]
+        }
+    },
+    "include": [
+        "**/*",
+        "../../../../.sfdx/typings/lwc/**/*.d.ts"
+    ],
+    "typeAcquisition": {
+        "include": [
+            "jest"
+        ]
+    }
+}

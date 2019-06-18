@@ -1,3 +1,11 @@
 <template>
-    <div>Hello world!</div>
+    <lightning-record-form
+        record-id={recordId}
+        object-api-name={objectApiName}
+        fields={fields}
+        columns="2"
+        mode="edit">
+    </lightning-record-form>
+
+    <c-amortization-chart record-id={recordId}></c-amortization-chart>
 </template>

@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import { LightningElement, api, wire } from 'lwc';
+import { LightningElement, api, wire, track } from 'lwc';
 import { getRecord } from 'lightning/uiRecordApi';
 import { loadScript } from 'lightning/platformResourceLoader';
 

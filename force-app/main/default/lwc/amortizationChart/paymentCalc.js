@@ -7,6 +7,7 @@
  * @property {number} interest - The interest rate as a decimal (0.05 = 5%)
  * @property {number} months - Loan term in months
  * @property {number} payment - Monthly payment
+
 */
 
 /**
@@ -63,5 +64,6 @@ const round2 = (value, decimals =2) => {
 const calculatePayment = (input) => {
     return round2(( input.price - input.downpayment ) * ((input.interest/12 * Math.pow( 1 + input.interest/12, input.months)) / (Math.pow ( 1 + input.interest/12, input.months) -1 )));
 }
+
 
 export {calculateAmortization, calculatePayment, round2}

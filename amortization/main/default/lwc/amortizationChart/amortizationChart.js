@@ -1,4 +1,5 @@
 /* eslint-disable no-console */
+// eslint-disable-next-line no-unused-vars
 import { LightningElement, api, wire, track } from 'lwc';
 import { getRecord } from 'lightning/uiRecordApi';
 import { loadScript } from 'lightning/platformResourceLoader';
@@ -10,7 +11,6 @@ import { calculateAmortization, calculatePayment, round2 } from './paymentCalc';
 export default class AmortizationChart extends LightningElement {
 
     @api recordId;
-
     chart;
     _chartjsInitialized = false;
     

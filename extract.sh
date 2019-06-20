@@ -18,5 +18,5 @@ sfdx shane:theme:activate -n Electron
 
 # Generate sample data
 mkdir scripts
-curl https://raw.githubusercontent.com/gabesumner/https://github.com/gabesumner/solutions-DX/master/manifest/package.xml --output ./scripts/generateSampleData.xml
+curl https://raw.githubusercontent.com/gabesumner/https://github.com/gabesumner/solutions-DX/master/manifest/package.xml --output ./scripts/generateSampleData.apex
 sfdx force:apex:execute -f scripts/generateSampleData.apex

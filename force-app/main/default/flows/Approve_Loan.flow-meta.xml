@@ -1,72 +1,305 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <assignments>
-        <name>Update_Duplicate</name>
-        <label>Update Duplicate</label>
-        <locationX>814</locationX>
-        <locationY>198</locationY>
+        <name>setCreditError</name>
+        <label>Set Error</label>
+        <locationX>699</locationX>
+        <locationY>603</locationY>
         <assignmentItems>
-            <assignToReference>oldVehicle.SAP_ID__c</assignToReference>
+            <assignToReference>error</assignToReference>
             <operator>Assign</operator>
             <value>
-                <stringValue/>
+                <stringValue>This loan does not have a pre-approved credit score or a valid exemption.</stringValue>
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>saveDuplicate</targetReference>
+            <targetReference>errorScreen</targetReference>
         </connector>
     </assignments>
     <assignments>
-        <name>Update_Vehicle</name>
-        <label>Update Vehicle</label>
-        <locationX>625</locationX>
-        <locationY>498</locationY>
+        <name>setInterestError</name>
+        <label>Set Error</label>
+        <locationX>600</locationX>
+        <locationY>391</locationY>
         <assignmentItems>
-            <assignToReference>vehicle.SAP_ID__c</assignToReference>
+            <assignToReference>error</assignToReference>
             <operator>Assign</operator>
             <value>
-                <stringValue>V-00001</stringValue>
+                <stringValue>This loan is missing a valid interest rate.</stringValue>
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Save_Vehicle</targetReference>
+            <targetReference>errorScreen</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>setLoan</name>
+        <label>Approve Loan</label>
+        <locationX>1058</locationX>
+        <locationY>395</locationY>
+        <assignmentItems>
+            <assignToReference>loan.Status__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Approved</stringValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>updateLoan</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>setPriceError</name>
+        <label>Set Error</label>
+        <locationX>275</locationX>
+        <locationY>394</locationY>
+        <assignmentItems>
+            <assignToReference>error</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>This loan is missing a price amount.</stringValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>errorScreen</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>setTermsError</name>
+        <label>Set Error</label>
+        <locationX>428</locationX>
+        <locationY>391</locationY>
+        <assignmentItems>
+            <assignToReference>error</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>This loan is missing the terms length.</stringValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>errorScreen</targetReference>
         </connector>
     </assignments>
     <decisions>
-        <name>Duplicates_Exist</name>
-        <label>Duplicates Exist</label>
-        <locationX>616</locationX>
-        <locationY>317</locationY>
+        <name>hasCreditScore</name>
+        <label>Has Credit Score?</label>
+        <locationX>664</locationX>
+        <locationY>194</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
-            <name>duplicatesIsNotNull</name>
+            <name>hasCreditScoreTrue</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>oldVehicle</leftValueReference>
+                <leftValueReference>loan.Credit_Score__c</leftValueReference>
                 <operator>IsNull</operator>
                 <rightValue>
                     <booleanValue>false</booleanValue>
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Update_Duplicate</targetReference>
+                <targetReference>isPreApproved</targetReference>
             </connector>
-            <label>Yes</label>
+            <label>True</label>
         </rules>
         <rules>
-            <name>duplicatesIsNull</name>
+            <name>hasCreditScoreFalse</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>oldVehicle</leftValueReference>
+                <leftValueReference>loan.Credit_Score__c</leftValueReference>
                 <operator>IsNull</operator>
                 <rightValue>
                     <booleanValue>true</booleanValue>
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>getVehicle</targetReference>
+                <targetReference>IsExempted</targetReference>
             </connector>
-            <label>No</label>
+            <label>False</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>IsExempted</name>
+        <label>Exemption?</label>
+        <locationX>771</locationX>
+        <locationY>400</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>isInterestValidTrue_0_0</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>loan.Credit_Exemption__c</leftValueReference>
+                <operator>WasSet</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>setLoan</targetReference>
+            </connector>
+            <label>True</label>
+        </rules>
+        <rules>
+            <name>isInterestValidFalse_0_0</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>loan.Credit_Exemption__c</leftValueReference>
+                <operator>WasSet</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>setCreditError</targetReference>
+            </connector>
+            <label>False</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>isInterestValid</name>
+        <label>Valid Interest?</label>
+        <locationX>508</locationX>
+        <locationY>195</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>isInterestValidTrue</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>loan.Interest__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>hasCreditScore</targetReference>
+            </connector>
+            <label>True</label>
+        </rules>
+        <rules>
+            <name>isInterestValidFalse</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>loan.Interest__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>setInterestError</targetReference>
+            </connector>
+            <label>False</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>isPreApproved</name>
+        <label>Pre-approved?</label>
+        <locationX>875</locationX>
+        <locationY>193</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>isPreApprovedTrue</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>loan.Interest__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>setLoan</targetReference>
+            </connector>
+            <label>True</label>
+        </rules>
+        <rules>
+            <name>isPreApprovedFalse</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>loan.Interest__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>IsExempted</targetReference>
+            </connector>
+            <label>False</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>isPriceValid</name>
+        <label>Valid Price?</label>
+        <locationX>194</locationX>
+        <locationY>192</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>isPriceSetTrue</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>loan.Price__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>isTermsValid</targetReference>
+            </connector>
+            <label>True</label>
+        </rules>
+        <rules>
+            <name>isPriceSetFalse</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>loan.Price__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>setPriceError</targetReference>
+            </connector>
+            <label>False</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>isTermsValid</name>
+        <label>Valid Terms?</label>
+        <locationX>351</locationX>
+        <locationY>195</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>isTermsValidTrue</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>loan.Terms__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>isInterestValid</targetReference>
+            </connector>
+            <label>True</label>
+        </rules>
+        <rules>
+            <name>isTermsValidFalse</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>loan.Terms__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>setTermsError</targetReference>
+            </connector>
+            <label>False</label>
         </rules>
     </decisions>
     <interviewLabel>Approve Loan {!$Flow.CurrentDateTime}</interviewLabel>
@@ -77,36 +310,21 @@
             <stringValue>LightningFlowBuilder</stringValue>
         </value>
     </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
     <processType>Flow</processType>
     <recordLookups>
-        <name>getDuplicate</name>
-        <label>Get Duplicate</label>
-        <locationX>467</locationX>
-        <locationY>315</locationY>
-        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
-        <connector>
-            <targetReference>Duplicates_Exist</targetReference>
-        </connector>
-        <filters>
-            <field>SAP_ID__c</field>
-            <operator>EqualTo</operator>
-            <value>
-                <stringValue>V-00001</stringValue>
-            </value>
-        </filters>
-        <object>Vehicle__c</object>
-        <outputReference>oldVehicle</outputReference>
-        <queriedFields>Id</queriedFields>
-        <queriedFields>SAP_ID__c</queriedFields>
-    </recordLookups>
-    <recordLookups>
         <name>getLoan</name>
-        <label>Get loan</label>
-        <locationX>329</locationX>
-        <locationY>173</locationY>
+        <label>Get Loan</label>
+        <locationX>202</locationX>
+        <locationY>50</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>saveLoan</targetReference>
+            <targetReference>isPriceValid</targetReference>
         </connector>
         <filters>
             <field>Id</field>
@@ -116,98 +334,52 @@
             </value>
         </filters>
         <object>Loan__c</object>
-        <outputAssignments>
-            <assignToReference>loan.FirstName__c</assignToReference>
-            <field>FirstName__c</field>
-        </outputAssignments>
-        <outputAssignments>
-            <assignToReference>loan.LastName__c</assignToReference>
-            <field>LastName__c</field>
-        </outputAssignments>
-        <outputAssignments>
-            <assignToReference>loan.Status__c</assignToReference>
-            <field>Status__c</field>
-        </outputAssignments>
-        <outputAssignments>
-            <assignToReference>loan.Vehicle__c</assignToReference>
-            <field>Vehicle__c</field>
-        </outputAssignments>
-    </recordLookups>
-    <recordLookups>
-        <name>getVehicle</name>
-        <label>Get Vehicle</label>
-        <locationX>794</locationX>
-        <locationY>498</locationY>
-        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
-        <connector>
-            <targetReference>Update_Vehicle</targetReference>
-        </connector>
-        <filters>
-            <field>Id</field>
-            <operator>EqualTo</operator>
-            <value>
-                <elementReference>loan.Vehicle__c</elementReference>
-            </value>
-        </filters>
-        <object>Vehicle__c</object>
-        <outputReference>vehicle</outputReference>
+        <outputReference>loan</outputReference>
         <queriedFields>Id</queriedFields>
-        <queriedFields>SAP_ID__c</queriedFields>
+        <queriedFields>Price__c</queriedFields>
+        <queriedFields>Terms__c</queriedFields>
+        <queriedFields>Interest__c</queriedFields>
+        <queriedFields>Status__c</queriedFields>
+        <queriedFields>Downpayment__c</queriedFields>
+        <queriedFields>Credit_Score__c</queriedFields>
     </recordLookups>
     <recordUpdates>
-        <name>Save_Vehicle</name>
-        <label>Save Vehicle</label>
-        <locationX>469</locationX>
-        <locationY>498</locationY>
+        <name>updateLoan</name>
+        <label>Update Loan</label>
+        <locationX>1058</locationX>
+        <locationY>604</locationY>
         <connector>
-            <targetReference>notificationScreen</targetReference>
+            <targetReference>successScreen</targetReference>
         </connector>
-        <inputReference>vehicle</inputReference>
-    </recordUpdates>
-    <recordUpdates>
-        <name>saveDuplicate</name>
-        <label>Save Duplicate</label>
-        <locationX>924</locationX>
-        <locationY>316</locationY>
-        <connector>
-            <targetReference>getVehicle</targetReference>
-        </connector>
-        <inputReference>oldVehicle</inputReference>
-    </recordUpdates>
-    <recordUpdates>
-        <name>saveLoan</name>
-        <label>Save Loan</label>
-        <locationX>329</locationX>
-        <locationY>315</locationY>
-        <connector>
-            <targetReference>getDuplicate</targetReference>
-        </connector>
-        <filters>
-            <field>Id</field>
-            <operator>EqualTo</operator>
-            <value>
-                <elementReference>recordId</elementReference>
-            </value>
-        </filters>
-        <inputAssignments>
-            <field>Status__c</field>
-            <value>
-                <stringValue>Approved</stringValue>
-            </value>
-        </inputAssignments>
-        <object>Loan__c</object>
+        <inputReference>loan</inputReference>
     </recordUpdates>
     <screens>
-        <name>notificationScreen</name>
-        <label>Success</label>
-        <locationX>326</locationX>
-        <locationY>498</locationY>
-        <allowBack>true</allowBack>
+        <name>errorScreen</name>
+        <label>Show Error Screen</label>
+        <locationX>428</locationX>
+        <locationY>603</locationY>
+        <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
         <fields>
-            <name>displayText</name>
-            <fieldText>{!loan.FirstName__c} {!loan.LastName__c}&#39;s loan has now been approved.</fieldText>
+            <name>errorText</name>
+            <fieldText>&lt;p&gt;Error: {!error}&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
+    <screens>
+        <name>successScreen</name>
+        <label>Success</label>
+        <locationX>887</locationX>
+        <locationY>604</locationY>
+        <allowBack>false</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <fields>
+            <name>successText</name>
+            <fieldText>&lt;p&gt;This loan has now been approved!&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <showFooter>true</showFooter>
@@ -215,6 +387,13 @@
     </screens>
     <startElementReference>getLoan</startElementReference>
     <status>Active</status>
+    <variables>
+        <name>error</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
     <variables>
         <name>loan</name>
         <dataType>SObject</dataType>
@@ -224,26 +403,10 @@
         <objectType>Loan__c</objectType>
     </variables>
     <variables>
-        <name>oldVehicle</name>
-        <dataType>SObject</dataType>
-        <isCollection>false</isCollection>
-        <isInput>false</isInput>
-        <isOutput>false</isOutput>
-        <objectType>Vehicle__c</objectType>
-    </variables>
-    <variables>
         <name>recordId</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
         <isInput>true</isInput>
-        <isOutput>true</isOutput>
-    </variables>
-    <variables>
-        <name>vehicle</name>
-        <dataType>SObject</dataType>
-        <isCollection>false</isCollection>
-        <isInput>false</isInput>
         <isOutput>false</isOutput>
-        <objectType>Vehicle__c</objectType>
     </variables>
 </Flow>

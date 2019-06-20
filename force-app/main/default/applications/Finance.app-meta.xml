@@ -15,10 +15,9 @@
     <tabs>standard-home</tabs>
     <tabs>standard-Dashboard</tabs>
     <tabs>standard-Contact</tabs>
-    <tabs>Vehicle__c</tabs>
-    <tabs>Loan__c</tabs>
     <tabs>standard-ProcessInstanceWorkitem</tabs>
     <tabs>standard-Feed</tabs>
     <tabs>Invoice__c</tabs>
+    <tabs>Loan__c</tabs>
     <uiType>Lightning</uiType>
 </CustomApplication>

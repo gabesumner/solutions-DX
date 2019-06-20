@@ -322,6 +322,7 @@ public with sharing class DemoController {
         loan.Terms__c = Integer.ValueOf(randomString(new string[]{'12', '24', '36', '48', '60', '72', '84'}));
         loan.Interest__c = Decimal.ValueOf(String.ValueOf(randomInt(1, 8)) + '.' + String.ValueOf(randomInt(0, 99)));
         loan.Vehicle__c = vehicle.Id;
+        loan.Model__c = vehicle.Model__c;
         loan.FirstName__c = contact.FirstName;
         loan.LastName__c = contact.LastName;
         loan.Employer__c = randomString(new string[]{'Northern Trail Outfitters', 'E-Bikes', 'DreamHouse', 'Pure Aloe', 'DreamInvest', 'Easy Spaces', 'Redwoods Insurance'});

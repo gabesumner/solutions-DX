@@ -115,7 +115,6 @@ public with sharing class DemoController {
 
         Contact contact = CreateContact(account);
         contact.LeadSource = 'Web';
-        contact.Username__c = UserInfo.getUserName();
         insert contact;
     }
 
@@ -242,6 +241,7 @@ public with sharing class DemoController {
         contact.OtherCountry = account.BillingCountry;
         contact.Birthdate = GetRandomBirthDate();
         contact.LeadSource = randomString(new string[]{'Web', 'Phone Inquiry', 'Partner Referral', 'Other'});
+        contact.Username__c = account.Username__c;
         return contact;
     }
 

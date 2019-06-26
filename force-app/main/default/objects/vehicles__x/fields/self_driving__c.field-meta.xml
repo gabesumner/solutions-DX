@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>self_driving__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>self_driving</description>
+    <externalDeveloperName>self_driving</externalDeveloperName>
+    <externalId>false</externalId>
+    <isFilteringDisabled>false</isFilteringDisabled>
+    <isNameField>false</isNameField>
+    <isSortingDisabled>false</isSortingDisabled>
+    <label>self_driving</label>
+    <type>Checkbox</type>
+</CustomField>

@@ -1,0 +1,6 @@
+<design:component label="Car Configurator">
+    <design:attribute name="model" datasource="Flint,Flare,Flash" label="Model" />
+    <design:attribute name="battery" datasource="50 kWh, 100 kWh, 100p kWh" label="Battery" />
+    <design:attribute name="color" label="Color" />
+    <design:attribute name="mode" datasource="ReadOnly,View,Edit" label="Mode" />
+</design:component>

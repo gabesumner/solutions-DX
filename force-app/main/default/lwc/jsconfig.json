@@ -2,14 +2,7 @@
     "compilerOptions": {
         "experimentalDecorators": true,
         "baseUrl": ".",
-        "paths": {
-            "c/amortizationCalculator": [
-                "amortizationCalculator/amortizationCalculator.js"
-            ],
-            "c/amortizationChart": [
-                "amortizationChart/amortizationChart.js"
-            ]
-        }
+        "paths": {}
     },
     "include": [
         "**/*",

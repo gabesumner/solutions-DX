@@ -1,0 +1,23 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes" controller="DemoController" access="global">
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:attribute name="login" type="String" default="Login" />
+    <aura:registerEvent name="modelSelectedEvent" type="c:modelSelectedEvent" />
+    <nav class="slds-grid">
+        <div class="slds-col menu">
+            <lightning:icon iconName="utility:rows" size="small" />
+        </div>
+        <div class="slds-col logo">
+            <a href="?">
+                <img src="{!$Resource.electron_logo_horizontal}" />
+            </a>
+        </div>
+        <div class="slds-col models">
+        </div>
+        <div class="slds-col login">
+            <span><a href="./login">{!v.login}</a></span>
+        </div>
+        <div class="slds-col alert">
+            <lightning:icon iconName="utility:notification" size="small" />
+        </div>
+    </nav>
+</aura:component>

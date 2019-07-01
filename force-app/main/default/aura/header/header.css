@@ -1,0 +1,78 @@
+.THIS {
+    color: white;
+    font-size: 0.8rem;
+    font-weight: 300;
+    cursor: pointer;
+    transition: color 0.15s ease-in-out;
+    text-transform: uppercase;
+    letter-spacing: 0.2rem;
+    padding: 0.5rem;
+    padding-left: 3rem;
+    padding-right: 3rem;
+    line-height: 30px;
+    width: 100%;
+    text-align: center;
+    display: inline-flex !important;
+    height: 50px;
+}
+
+.THIS .slds-icon-text-default {
+    fill: white;
+}
+
+.THIS .logo {
+    text-align: left;
+}
+
+.THIS .menu, .THIS .alert {
+    display: none;
+}
+
+.THIS .models {
+    text-align: center;
+}
+
+.THIS .login {
+    text-align: right;
+}
+
+.THIS a {
+    color: white;
+}
+
+.THIS .logo img {
+    height: 30px;    
+}
+
+.THIS .link {
+    cursor: pointer;
+}
+
+@media only screen and (max-width: 800px) {
+    .THIS {
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;    
+        position: fixed;
+        top: 0;
+        left: 0;
+        background-color: black;
+    }
+    .THIS .logo {
+        text-align: center;
+        width: 100%;
+    }
+    
+    .THIS .models {
+        display: none;
+        text-align: center;
+    }
+
+    .THIS .menu, .THIS .alert {
+        display: block;
+    }
+    
+    .THIS .login {
+        display: none;
+        text-align: right;
+    }
+}

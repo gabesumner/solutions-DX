@@ -1,0 +1,14 @@
+.THIS .item {
+    border-bottom: solid 1px #cccccc;
+    padding-bottom: 7px;
+    margin-bottom: 7px;
+}
+
+.THIS h1 {
+    font-size: 1.2rem;
+    padding-bottom: 10px;
+}
+
+.THIS .item .title {
+    font-size: 1.1rem;
+}

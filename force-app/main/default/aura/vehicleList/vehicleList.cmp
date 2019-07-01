@@ -1,0 +1,15 @@
+<aura:component controller="MuleSoftDemoController">
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:attribute name="vehicles" type="List" />
+    <div>
+        <h1>Manufacturing - Pending Vehicles</h1>
+        <aura:iteration items="{!v.vehicles}" var="vehicle">
+            <div class="item">
+                <div class="title"><a href="{!'?id=' + vehicle.Id}">{!vehicle.Name}</a></div>
+                <div>Customer: {!vehicle.Account__r.Name} </div>
+                <div>Model: {!vehicle.Model__c} </div>
+                <div>Last Modified: <lightning:formattedDateTime value="{!vehicle.LastModifiedDate}" year="numeric" month="numeric" day="numeric" hour="2-digit" minute="2-digit" timeZoneName="short" hour12="true"/></div>
+            </div>
+        </aura:iteration>
+    </div>
+</aura:component>	

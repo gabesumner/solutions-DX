@@ -1,0 +1,33 @@
+<apex:page >
+    <apex:includeLightning />
+    <apex:slds />
+
+    <style type="text/css">
+      .slds-scope { font-family: monospace !important; }
+      #header { background-color: black; }
+      #primary {
+        padding-top: 15px;
+        padding-left: 50px;
+        padding-right: 50px;
+        max-width: 1300px;
+      }
+    </style>
+
+    <div id="header" />
+    <div id="primary" />
+
+    <script>
+        $Lightning.use("c:ManufacturingApp", function() {
+          var urlParams = new URLSearchParams(window.location.search)
+          var recordId = urlParams.get('id');
+
+          $Lightning.createComponent("c:header", { }, "header", function(cmp) { });
+
+          if (recordId) {
+            $Lightning.createComponent("c:recordEdit", {recordId: recordId }, "primary", function(cmp) { });
+          } else {
+            $Lightning.createComponent("c:vehicleList", { }, "primary", function(cmp) { });
+          }
+        });
+    </script>
+</apex:page>

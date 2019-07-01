@@ -1,0 +1,12 @@
+<aura:component implements="force:hasRecordId">
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <div>
+        <div id="snackbar" aura:id="snackbar" class="snackbar">Record saved.</div>
+        <force:recordEdit aura:id="edit" recordId="{!v.recordId}"/>
+        <div aura:id="buttons" class="hide">
+            <hr />
+            <lightning:button label="Save" variant="brand" onclick="{!c.save}" />
+            <lightning:button label="Cancel" onclick="{!c.cancel}" />
+        </div>
+    </div>
+</aura:component>	

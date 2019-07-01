@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Validate_Interest_Rate</fullName>
+    <active>true</active>
+    <errorConditionFormula>Interest__c &lt; 0.02 || Interest__c &gt; 0.09</errorConditionFormula>
+    <errorDisplayField>Interest__c</errorDisplayField>
+    <errorMessage>Interest rate must be between 2% and 9%.</errorMessage>
+</ValidationRule>

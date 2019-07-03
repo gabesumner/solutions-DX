@@ -75,7 +75,7 @@ public with sharing class DemoController {
         Loan__c loan = new Loan__c();
         loan.Price__c = integer.valueof(price);
         loan.Terms__c = integer.valueof(terms);
-        loan.Interest__c = 6.00;
+        loan.Interest__c = 0.06;
         loan.Downpayment__c = integer.valueof(downpayment);
         loan.Status__c = 'Pending';
         loan.Customer__c = contact.Id;
@@ -142,14 +142,8 @@ public with sharing class DemoController {
         Contact contact = CreateContact(account);
         contact.LeadSource = 'Phone Inquiry';
         insert contact;
-
-        Vehicle__c vehicle = CreateVehicle(contact, false);
-        vehicle.Model__c = 'Flare';
-        vehicle.Paint__c = '1000';
-        vehicle.Status__c = 'Evaluation';
-        vehicle.SAP_ID__c = 'V-00001';
-        insert vehicle;
     }
+    
     public static Contact getContactForCurrentUser() {
         String contactId = getContactIDForCurrentUser();
         Contact contact = [SELECT Id, FirstName, LastName, Employer__c FROM Contact WHERE Id = :contactId LIMIT 1];

@@ -75,7 +75,7 @@ public with sharing class DemoController {
         Loan__c loan = new Loan__c();
         loan.Price__c = integer.valueof(price);
         loan.Terms__c = integer.valueof(terms);
-        loan.Interest__c = 0.06;
+        loan.Interest__c = 6;
         loan.Downpayment__c = integer.valueof(downpayment);
         loan.Status__c = 'Pending';
         loan.Customer__c = contact.Id;
@@ -314,7 +314,7 @@ public with sharing class DemoController {
         loan.Downpayment__c = Decimal.ValueOf(randomString(new string[]{'1000', '3000', '5000', '10000', '15000'}));
         loan.Price__c = vehicle.Price__c - loan.Downpayment__c;
         loan.Terms__c = Integer.ValueOf(randomString(new string[]{'12', '24', '36', '48', '60', '72', '84'}));
-        loan.Interest__c = Decimal.ValueOf(String.ValueOf(randomInt(1, 8)) + '.' + String.ValueOf(randomInt(0, 99)));
+        loan.Interest__c = Decimal.ValueOf(String.ValueOf(randomInt(2, 9)));
         loan.Vehicle__c = vehicle.Id;
         loan.Model__c = vehicle.Model__c;
         loan.FirstName__c = contact.FirstName;
